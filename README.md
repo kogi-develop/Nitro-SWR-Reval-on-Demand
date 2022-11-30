@@ -3,6 +3,8 @@
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/github-xc6cjm-tjfbvf)
 
 ```
+/utils/swrRevalidate.ts
+
 export type swrCacheDestination = {
   name: string;
   group?: string;
