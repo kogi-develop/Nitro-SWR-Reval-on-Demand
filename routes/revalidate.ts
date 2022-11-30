@@ -1,8 +1,9 @@
 import { revalidateSwrCache } from '../utils/swrRevalidate';
 
 export default defineEventHandler(async (event) => {
+  console.log('reval');
   const router = await useStorage();
-  revalidateSwrCache({ name: 'index', route: '/' });
+  const reval = await revalidateSwrCache({ name: 'index', route: '/' });
 
-  return { nothing: 'nothing' };
+  return { reval };
 });

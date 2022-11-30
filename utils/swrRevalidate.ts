@@ -20,7 +20,6 @@ const revalidateSwrCache = async ({
   route,
 }: cachedRoute) => {
   const storageString = `cache:${group}:${name}:.il7asoJjJE.json`;
-  console.log(storageString);
   const storage = await useStorage();
   storage.removeItem(storageString);
 
