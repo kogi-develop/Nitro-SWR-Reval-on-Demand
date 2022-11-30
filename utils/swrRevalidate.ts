@@ -1,12 +1,12 @@
-export type swrCache = {
+export type swrCacheDestination = {
   name: string;
   group?: string;
 };
-export interface cachedRoute extends swrCache {
+export interface cachedRoute extends swrCacheDestination {
   route: string;
 }
 
-const createSwrCache = ({ name, group = 'swr' }: swrCache) => {
+const createSwrCache = ({ name, group = 'swr' }: swrCacheDestination) => {
   return {
     getKey: () => name,
     group,
