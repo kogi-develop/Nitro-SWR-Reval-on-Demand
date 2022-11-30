@@ -2,8 +2,8 @@
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/github-xc6cjm-tjfbvf)
 
-```
-/utils/swrRevalidate.ts
+```typescript
+// /utils/swrRevalidate.ts
 
 export type swrCacheDestination = {
   name: string;
@@ -36,4 +36,40 @@ const revalidateSwrCache = async ({
   return revalidatedResponse;
 };
 export { createSwrCache, revalidateSwrCache };
+```
+
+
+Usage createSwrCache:
+```typescript
+// routes/index.ts
+
+import { createSwrCache } from '../utils/swrRevalidate';
+const swrConf = createSwrCache({ name: 'index' });
+console.log(swrConf);
+export default cachedEventHandler(
+  async () => {
+    new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log('index');
+    return `Response generated at ${new Date().toISOString()}`;
+  },
+  {
+    swr: true,
+    maxAge: 5000000000000000,
+    ...swrConf,
+  }
+);
+```
+
+Usage revalidateSwrCache:
+```typescript
+// routes/revalidation.ts
+
+import { revalidateSwrCache } from '../utils/swrRevalidate';
+
+export default defineEventHandler(async (event) => {
+  console.log('reval');
+  const reval = await revalidateSwrCache({ name: 'index', route: '/' });
+
+  return { reval };
+});
 ```
