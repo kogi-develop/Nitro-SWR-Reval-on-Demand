@@ -8,7 +8,10 @@ export interface cachedRoute extends swrCacheDestination {
 
 const createSwrCache = ({ name, group = 'swr' }: swrCacheDestination) => {
   return {
-    getKey: () => name,
+    getKey: (...args) => {
+      console.log('args', args);
+      return name;
+    },
     group,
     name,
   };
@@ -19,9 +22,17 @@ const revalidateSwrCache = async ({
   group = 'swr',
   route,
 }: cachedRoute) => {
-  const storageString = `cache:${group}:${name}:.il7asoJjJE.json`;
+  const storageString = `cache:${group}:${name}`;
   const storage = await useStorage();
-  storage.removeItem(storageString);
+  const keys = await storage.getKeys(storageString);
+  console.log(keys);
+  try {
+    keys.forEach((key) => {
+      storage.removeItem(key);
+    });
+  } catch (e) {
+    console.log(e);
+  }
 
   const revalidatedResponse = await $fetch(
     ['', 'index'].includes(route) ? '/' : route
